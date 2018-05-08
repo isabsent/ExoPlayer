@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.github.isabsent.exoplayer;
 
 import android.annotation.SuppressLint;
@@ -39,9 +24,6 @@ import com.google.android.exoplayer2.trackselection.TrackSelection;
 
 import java.util.Arrays;
 
-/**
- * Helper class for displaying track selection dialogs.
- */
 public class TrackSelectionHelper implements View.OnClickListener,
         DialogInterface.OnClickListener {
 
@@ -63,24 +45,11 @@ public class TrackSelectionHelper implements View.OnClickListener,
     private CheckedTextView enableRandomAdaptationView;
     private CheckedTextView[][] trackViews;
 
-    /**
-     * @param selector                      The track selector.
-     * @param adaptiveTrackSelectionFactory A factory for adaptive {@link TrackSelection}s, or null
-     *                                      if the selection helper should not support adaptive tracks.
-     */
     public TrackSelectionHelper(MappingTrackSelector selector, TrackSelection.Factory adaptiveTrackSelectionFactory) {
         this.selector = selector;
         this.adaptiveTrackSelectionFactory = adaptiveTrackSelectionFactory;
     }
 
-    /**
-     * Shows the selection dialog for a given renderer.
-     *
-     * @param activity      The parent activity.
-     * @param title         The dialog's title.
-     * @param trackInfo     The current track information.
-     * @param rendererIndex The index of the renderer.
-     */
     public void showSelectionDialog(Activity activity, CharSequence title, MappedTrackInfo trackInfo, int rendererIndex) {
         this.trackInfo = trackInfo;
         this.rendererIndex = rendererIndex;
@@ -199,8 +168,6 @@ public class TrackSelectionHelper implements View.OnClickListener,
         }
     }
 
-    // DialogInterface.OnClickListener
-
     @Override
     public void onClick(DialogInterface dialog, int which) {
         selector.setRendererDisabled(rendererIndex, isDisabled);
@@ -210,8 +177,6 @@ public class TrackSelectionHelper implements View.OnClickListener,
             selector.clearSelectionOverrides(rendererIndex);
         }
     }
-
-    // View.OnClickListener
 
     @Override
     public void onClick(View view) {
@@ -262,8 +227,6 @@ public class TrackSelectionHelper implements View.OnClickListener,
                 : (enableRandomAdaptation ? RANDOM_FACTORY : adaptiveTrackSelectionFactory);
         override = new SelectionOverride(factory, group, tracks);
     }
-
-    // Track array manipulation.
 
     private static int[] getTracksAdding(SelectionOverride override, int addedTrack) {
         int[] tracks = override.tracks;

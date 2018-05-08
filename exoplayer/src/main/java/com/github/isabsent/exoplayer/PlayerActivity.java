@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.github.isabsent.exoplayer;
 
 import android.app.Activity;
@@ -87,9 +72,6 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.UUID;
 
-/**
- * An activity that plays media using {@link SimpleExoPlayer}.
- */
 public class PlayerActivity extends Activity
         implements OnClickListener, PlaybackPreparer, PlayerControlView.VisibilityListener {
 
@@ -138,13 +120,9 @@ public class PlayerActivity extends Activity
     private long resumePosition;
     private String userAgent;
 
-    // Fields used only for ad playback. The ads loader is loaded via reflection.
-
     private AdsLoader adsLoader;
     private Uri loadedAdTagUri;
     private ViewGroup adUiViewGroup;
-
-    // Activity lifecycle
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -226,15 +204,11 @@ public class PlayerActivity extends Activity
         }
     }
 
-    // Activity input
-
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         // See whether the player view wants to handle media or DPAD keys events.
         return playerView.dispatchKeyEvent(event) || super.dispatchKeyEvent(event);
     }
-
-    // OnClickListener methods
 
     @Override
     public void onClick(View view) {
@@ -247,21 +221,15 @@ public class PlayerActivity extends Activity
         }
     }
 
-    // PlaybackControlView.PlaybackPreparer implementation
-
     @Override
     public void preparePlayback() {
         initializePlayer();
     }
 
-    // PlaybackControlView.VisibilityListener implementation
-
     @Override
     public void onVisibilityChange(int visibility) {
         debugRootView.setVisibility(visibility);
     }
-
-    // Internal methods
 
     private void initializePlayer() {
         Intent intent = getIntent();
@@ -458,13 +426,6 @@ public class PlayerActivity extends Activity
         resumePosition = C.TIME_UNSET;
     }
 
-    /**
-     * Returns a new DataSource factory.
-     *
-     * @param useBandwidthMeter Whether to set {@link #BANDWIDTH_METER} as a listener to the new
-     *                          DataSource factory.
-     * @return A new DataSource factory.
-     */
     private DataSource.Factory buildDataSourceFactory(boolean useBandwidthMeter) {
         return buildDataSourceFactory(useBandwidthMeter ? BANDWIDTH_METER : null);
     }
@@ -473,20 +434,10 @@ public class PlayerActivity extends Activity
         return buildInputStreamDataSourceFactory(useBandwidthMeter ? BANDWIDTH_METER : null);
     }
 
-    /**
-     * Returns a new HttpDataSource factory.
-     *
-     * @param useBandwidthMeter Whether to set {@link #BANDWIDTH_METER} as a listener to the new
-     *                          DataSource factory.
-     * @return A new HttpDataSource factory.
-     */
     private HttpDataSource.Factory buildHttpDataSourceFactory(boolean useBandwidthMeter) {
         return buildHttpDataSourceFactory(useBandwidthMeter ? BANDWIDTH_METER : null);
     }
 
-    /**
-     * Returns an ads media source, reusing the ads loader if one exists.
-     */
     private
     @Nullable
     MediaSource createAdsMediaSource(MediaSource mediaSource, Uri adTagUri) {
@@ -539,8 +490,6 @@ public class PlayerActivity extends Activity
             playerView.getOverlayFrameLayout().removeAllViews();
         }
     }
-
-    // User controls
 
     private void updateButtonVisibilities() {
         debugRootView.removeAllViews();
@@ -690,16 +639,10 @@ public class PlayerActivity extends Activity
         return BuildConfig.FLAVOR.equals("withExtensions");
     }
 
-    /**
-     * Returns a {@link DataSource.Factory}.
-     */
     public DataSource.Factory buildDataSourceFactory(TransferListener<? super DataSource> listener) {
         return new DefaultDataSourceFactory(this, listener, buildHttpDataSourceFactory(listener));
     }
 
-    /**
-     * Returns a {@link HttpDataSource.Factory}.
-     */
     public HttpDataSource.Factory buildHttpDataSourceFactory(TransferListener<? super DataSource> listener) {
         return new DefaultHttpDataSourceFactory(userAgent, listener);
     }
