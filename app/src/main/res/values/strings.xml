@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">LibraryExample</string>
+    <string name="action_settings">Settings</string>
+    <string name="sample_list_load_error">One or more sample lists failed to load</string>
+</resources>
